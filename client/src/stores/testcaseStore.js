@@ -58,25 +58,27 @@ class TestcaseStore extends EventEmitter {
 
     _addOutcome(payload){
         console.log(payload);
-
+        /*
         fetchJsonp(API_URL+'/results/'+payload.tcid+'/'+payload.user+'/'+payload.outcome)
             .then((resp)=>{ return resp.json();})
             .then((resp)=>{
                 fakeresultsdb = resp;
                 this.emit(CHANGE);
             });
-
+        
         if(fakeresultsdb[payload.tcid] === undefined){
             fakeresultsdb[payload.tcid] = {}
         }
 
         fakeresultsdb[payload.tcid][payload.user] = payload.outcome;
+        
         this.emit(CHANGE);
+        */
     }
 
     _removeOutcome(payload){
         console.log(payload);
-
+        /*
         fetchJsonp(API_URL+'/results/'+payload.tcid+'/delete/'+payload.user)
         .then((resp)=>{ return resp.json();})
         .then((resp)=>{
@@ -86,11 +88,12 @@ class TestcaseStore extends EventEmitter {
 
         delete fakeresultsdb[payload.tcid][payload.user];
         this.emit(CHANGE);
+        */
     }
 
     _backendcall(payload){
         console.log(payload);
-
+        
         fetchJsonp(payload.url)
             .then((resp)=>{ return resp.json();})
             .then((resp)=>{
@@ -99,6 +102,7 @@ class TestcaseStore extends EventEmitter {
                 fakeresultsdb[payload.tcid] = resp;
                 this.emit(CHANGE);
             });
+        
     }
 
     getResults(tcid){
