@@ -16,6 +16,26 @@ results = {
     }
 }
 
+metadata = {
+    'kittenkilld': {
+        'name': 'Install kittenkilld',
+        'description': 'Ugly kitten killing testcase. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam rhoncus aliquam metus.',
+        'steps': ['obtain a kitten', 'kill the kitten', '?', 'profit'],
+        'expected': ['you have a kitten', 'the kitten is no more', '?', 'dem shekels'],
+    },
+    'troll-kamil': {
+        'name': 'Skladanka-level Trolling',
+        'description': 'Just everyday joy. Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis, sem. Nulla quis diam. Integer tempor. Curabitur sagittis hendrerit ante. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Integer lacinia. In dapibus augue non sapien.',
+        'steps': ['troll kamil', '?', 'lol'],
+        'expected': ['kamil is angry', '?', 'rofl'],
+    },
+    'lipsum': {
+        'name': 'Lorem Ipsum Testcase',
+        'description': 'Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis, sem. Nulla quis diam. Integer tempor. Curabitur sagittis hendrerit ante. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Integer lacinia. In dapibus augue non sapien.',
+        'steps': ['step one', 'step two'],
+        'expected': ['yeah', 'blah blah'],
+    }
+}
 
 app = Flask(__name__)
 
@@ -40,6 +60,7 @@ def get_results(tcid):
     result = results.get(tcid, {})
     return jsonify(result)
 
+
 @app.route('/results/<tcid>/delete/<user>/', methods=['GET'])
 @jsonp
 def del_results(tcid, user):
@@ -49,6 +70,7 @@ def del_results(tcid, user):
         pass
     return jsonify(results)
 
+
 @app.route('/results/<tcid>/<user>/<outcome>', methods=['GET'])
 @jsonp
 def set_results(tcid, user, outcome):
@@ -56,6 +78,18 @@ def set_results(tcid, user, outcome):
         results[tcid] = {}
     results[tcid][user] = outcome
     return jsonify(results)
+
+
+@app.route('/testcases')
+@jsonp
+def get_testcases():
+    return jsonify({'testcases': metadata.keys()})
+
+@app.route('/metadata/<tcid>')
+@jsonp
+def get_metadata(tcid):
+    result = metadata.get(tcid, {})
+    return jsonify(result)
 
 
 if __name__ == '__main__':

@@ -22,6 +22,15 @@ class TestCaseActions {
         api.remove_outcome(payload.tcid, payload.user);
     }
 
+    load_metadata(payload){
+        Dispatcher.dispatch({
+            actionType: ActionTypes.BACKEND_CALL,
+            payload: payload
+        });
+
+        api.load_metadata(payload.tcid);
+    }
+
     load_results(payload){
         Dispatcher.dispatch({
             actionType: ActionTypes.BACKEND_CALL,

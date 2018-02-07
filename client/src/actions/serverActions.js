@@ -18,9 +18,23 @@ class TestCaseActions {
 
     }
 
+    load_metadata(payload){
+        Dispatcher.dispatch({
+            actionType: ActionTypes.LOAD_METADATA_RESP,
+            payload: payload
+        });
+    }
+
     load_results(payload){
         Dispatcher.dispatch({
             actionType: ActionTypes.BACKEND_CALL_RESP,
+            payload: payload
+        });
+    }
+
+    get_testcases(payload){
+        Dispatcher.dispatch({
+            actionType: ActionTypes.GET_TESTCASES_RESP,
             payload: payload
         });
     }

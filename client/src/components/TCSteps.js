@@ -12,7 +12,7 @@ class TCSteps extends Component {
 
     return (
       <div className="col-4 steps">
-      <b>{this.props.title}:</b>
+        <b>{this.props.title}:</b>
         {steps}
       </div>
     );

@@ -13,13 +13,16 @@ class TC extends Component {
   constructor(props){
     super(props);
     this.state = {
-      metadata: TestcaseStore.getMetadata(this.props.tcid),
+      metadata: {},//TestcaseStore.getMetadata(this.props.tcid),
       results: {}
     }
   }
 
   _onChange(){
-    this.setState({results: TestcaseStore.getResults(this.props.tcid)});
+    this.setState({
+      results: TestcaseStore.getResults(this.props.tcid),
+      metadata: TestcaseStore.getMetadata(this.props.tcid)
+    });
   }
 
   componentWillMount(){
@@ -27,7 +30,8 @@ class TC extends Component {
   }
 
   componentDidMount(){
-    this.handleBackend();
+    setTimeout(() => {this.handleBackend()}, 1); //WAAAAAT ugly fucking hack FIXME
+    //this.handleBackend();
   }
 
   componentWillUnmount(){
@@ -43,14 +47,19 @@ class TC extends Component {
   }
 
   handleBackend(){
+    TestcaseActions.load_metadata({tcid: this.props.tcid});
     TestcaseActions.load_results({tcid: this.props.tcid});
   }
 
   render() {
+    if(Object.keys(this.state.metadata).length === 0)
+      return (<div>Loading</div>);
+
     var hidden = "";
     if(! _.toLower(this.state.metadata.name).includes(_.toLower(this.props.filter))){
       hidden = "hidden";
     }
+
     return (
       <div className={"testcase "+hidden}>
         <div className="row">
@@ -74,7 +83,7 @@ class TC extends Component {
         <button type="button" className="btn btn-sm btn-danger" onClick={()=> this.handleAdd('FAILED')}>Failed</button>{' '}
         <button type="button" className="btn btn-sm btn-info" onClick={()=> this.handleAdd('INPROGRESS')}>In Progress</button>{' '}
         <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>Remove</button>{' '}
-        
+
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import TestcaseStore from './stores/testcaseStore';
-
+import AppActions from './actions/appActions';
 import TC from './components/TC';
 
 
@@ -11,6 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       user: 'lbrabec',
+      testcases: [],
       filter: ''
     }
   }
@@ -19,8 +20,25 @@ class App extends Component {
     this.setState({filter: e.target.value});
   }
 
+  componentWillMount(){
+    TestcaseStore.addAppChangeListener(this._onChange.bind(this));
+  }
+
+  componentDidMount(){
+    AppActions.get_testcases({});
+  }
+
+  componentWillUnmount(){
+    TestcaseStore.removeAppChangeListener(this._onChange.bind(this));
+  }
+
+  _onChange(){
+    //console.log(TestcaseStore.getTestcases());
+    this.setState({testcases: TestcaseStore.getTestcases()});
+  }
+
   render() {
-    const tcs = Object.keys(TestcaseStore.getAllMetadata()).map((key) => {
+    const tcs = this.state.testcases.map((key) => {
       return <TC user={this.state.user} tcid={key} key={key} filter={this.state.filter}/>
     });
 
