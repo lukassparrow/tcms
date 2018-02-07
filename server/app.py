@@ -37,7 +37,7 @@ def jsonp(func):
 @app.route('/results/<string:tcid>', methods=['GET'])
 @jsonp
 def get_results(tcid):
-    result = results.get(tcid, {});
+    result = results.get(tcid, {})
     return jsonify(result)
 
 @app.route('/results/<tcid>/delete/<user>/', methods=['GET'])
