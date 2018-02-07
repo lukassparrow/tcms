@@ -93,7 +93,7 @@ class TestcaseStore extends EventEmitter {
 
     _backendcall(payload){
         console.log(payload);
-        
+        /*
         fetchJsonp(payload.url)
             .then((resp)=>{ return resp.json();})
             .then((resp)=>{
@@ -102,7 +102,7 @@ class TestcaseStore extends EventEmitter {
                 fakeresultsdb[payload.tcid] = resp;
                 this.emit(CHANGE);
             });
-        
+        */
     }
 
     getResults(tcid){

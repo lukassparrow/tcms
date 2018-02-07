@@ -29,7 +29,7 @@ class TestCaseActions {
             payload: payload
         });
 
-        api.load_results();
+        api.load_results(payload.tcid);
     }
 
     universal(payload, actionType){

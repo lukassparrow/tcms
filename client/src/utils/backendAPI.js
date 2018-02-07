@@ -28,10 +28,10 @@ class BackendAPI {
         });
     }
 
-    load_results(){
+    load_results(tcid){
         console.log("loading results");
 
-        fetchJsonp(API_URL+"/results")
+        fetchJsonp(API_URL+"/results/"+tcid)
             .then((resp)=>{ return resp.json();})
             .then((json)=>{
                 console.log(json);
