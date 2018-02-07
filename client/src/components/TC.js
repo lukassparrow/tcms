@@ -45,7 +45,7 @@ class TC extends Component {
   }
 
   handleBackend(){
-    TestcaseActions.backend_call({tcid: this.props.tcid});
+    TestcaseActions.load_results({tcid: this.props.tcid});
   }
 
   render() {

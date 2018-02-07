@@ -1,35 +1,30 @@
 import Dispatcher from '../dispatcher';
 import ActionTypes from '../constants';
-import api from '../utils/backendAPI';
 
 
 class TestCaseActions {
     addOutcome(payload){
         Dispatcher.dispatch({
-            actionType: ActionTypes.ADD_OUTCOME,
+            actionType: ActionTypes.ADD_OUTCOME_RESP,
             payload: payload
         });
-
-        api.add_outcome(payload.tcid, payload.user, payload.outcome);
     }
 
     removeOutcome(payload){
         Dispatcher.dispatch({
-            actionType: ActionTypes.REMOVE_OUTCOME,
+            actionType: ActionTypes.REMOVE_OUTCOME_RESP,
             payload: payload
         });
 
-        api.remove_outcome(payload.tcid, payload.user);
     }
 
     load_results(payload){
         Dispatcher.dispatch({
-            actionType: ActionTypes.BACKEND_CALL,
+            actionType: ActionTypes.BACKEND_CALL_RESP,
             payload: payload
         });
-
-        api.load_results(payload.tcid);
     }
+
 }
 
 export default new TestCaseActions();

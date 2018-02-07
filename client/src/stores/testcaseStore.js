@@ -2,11 +2,7 @@ import { EventEmitter } from 'events';
 import Dispatcher from '../dispatcher';
 import ActionTypes from '../constants';
 
-import fetchJsonp from 'fetch-jsonp';
-
-
 const CHANGE = 'CHANGE';
-const API_URL = 'http://localhost:5000'
 
 var tcsmetadata = {
     'kittenkilld': {
@@ -40,15 +36,15 @@ class TestcaseStore extends EventEmitter {
 
     _registerToActions(action){
         switch(action.actionType){
-            case ActionTypes.ADD_OUTCOME:
+            case ActionTypes.ADD_OUTCOME_RESP:
                 this._addOutcome(action.payload);
             break;
-            case ActionTypes.REMOVE_OUTCOME:
+            case ActionTypes.REMOVE_OUTCOME_RESP:
                 this._removeOutcome(action.payload)
             break;
             
-            case ActionTypes.BACKEND_CALL:
-                this._backendcall(action.payload)
+            case ActionTypes.BACKEND_CALL_RESP:
+                this._load_results(action.payload)
             break;
 
             default:
@@ -58,51 +54,23 @@ class TestcaseStore extends EventEmitter {
 
     _addOutcome(payload){
         console.log(payload);
-        /*
-        fetchJsonp(API_URL+'/results/'+payload.tcid+'/'+payload.user+'/'+payload.outcome)
-            .then((resp)=>{ return resp.json();})
-            .then((resp)=>{
-                fakeresultsdb = resp;
-                this.emit(CHANGE);
-            });
         
-        if(fakeresultsdb[payload.tcid] === undefined){
-            fakeresultsdb[payload.tcid] = {}
-        }
-
-        fakeresultsdb[payload.tcid][payload.user] = payload.outcome;
-        
+        fakeresultsdb = payload;
         this.emit(CHANGE);
-        */
     }
 
     _removeOutcome(payload){
         console.log(payload);
-        /*
-        fetchJsonp(API_URL+'/results/'+payload.tcid+'/delete/'+payload.user)
-        .then((resp)=>{ return resp.json();})
-        .then((resp)=>{
-            fakeresultsdb = resp;
-            this.emit(CHANGE);
-        });
-
-        delete fakeresultsdb[payload.tcid][payload.user];
+        
+        fakeresultsdb = payload;
         this.emit(CHANGE);
-        */
     }
 
-    _backendcall(payload){
+    _load_results(payload){
         console.log(payload);
-        /*
-        fetchJsonp(payload.url)
-            .then((resp)=>{ return resp.json();})
-            .then((resp)=>{
-                console.log("backendcall");
-                console.log(resp);
-                fakeresultsdb[payload.tcid] = resp;
-                this.emit(CHANGE);
-            });
-        */
+        
+        fakeresultsdb[payload.tcid] = payload.data;
+        this.emit(CHANGE);
     }
 
     getResults(tcid){

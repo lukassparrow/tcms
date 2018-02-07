@@ -1,9 +1,10 @@
 
 import fetchJsonp from 'fetch-jsonp';
 
+import ServerActions from '../actions/serverActions';
+
 const API_URL = 'http://localhost:5000'
 
-//FIXME! add dispatching
 
 class BackendAPI {
     add_outcome(tcid, user, outcome){
@@ -13,7 +14,7 @@ class BackendAPI {
             .then((resp)=>{ return resp.json();})
             .then((json)=>{
                 console.log(json);
-                //DISPATCH!
+                ServerActions.addOutcome(json);
             });
     }
 
@@ -21,11 +22,11 @@ class BackendAPI {
         console.log(tcid+" "+user);
 
         fetchJsonp(API_URL+'/results/'+tcid+'/delete/'+user)
-        .then((resp)=>{ return resp.json();})
-        .then((json)=>{
-            console.log(json);
-            //DISPATCH!!
-        });
+            .then((resp)=>{ return resp.json();})
+            .then((json)=>{
+                console.log(json);
+                ServerActions.removeOutcome(json);
+            });
     }
 
     load_results(tcid){
@@ -35,7 +36,7 @@ class BackendAPI {
             .then((resp)=>{ return resp.json();})
             .then((json)=>{
                 console.log(json);
-                //DISPATCH!!
+                ServerActions.load_results({tcid: tcid, data: json});
             });
     }
 }
