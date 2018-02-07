@@ -14,8 +14,8 @@ class TCResults extends Component {
       }
       
       return (
-        <div>
-          <span className={"badge " + badge_type} key={key}>
+        <div key={key}>
+          <span className={"badge " + badge_type}>
             {key + ": " + this.props.results[key]}
           </span>{' '}
         </div>
