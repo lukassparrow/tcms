@@ -2,9 +2,6 @@ import { EventEmitter } from 'events';
 import Dispatcher from '../dispatcher';
 import ActionTypes from '../constants';
 
-import superagent from 'superagent';
-import jsonp from 'superagent-jsonpx';
-
 import fetchJsonp from 'fetch-jsonp';
 
 
