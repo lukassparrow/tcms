@@ -19,7 +19,6 @@ class TC extends Component {
   }
 
   _onChange(){
-    console.log("Setting state for " + this.props.tcid);
     this.setState({results: TestcaseStore.getResults(this.props.tcid)});
   }
 
@@ -40,7 +39,6 @@ class TC extends Component {
   }
 
   handleRemove(){
-    console.log(this);
     TestcaseActions.removeOutcome({tcid: this.props.tcid, user: this.props.user});
   }
 

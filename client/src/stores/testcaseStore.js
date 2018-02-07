@@ -53,22 +53,16 @@ class TestcaseStore extends EventEmitter {
     }
 
     _addOutcome(payload){
-        console.log(payload);
-        
         fakeresultsdb = payload;
         this.emit(CHANGE);
     }
 
     _removeOutcome(payload){
-        console.log(payload);
-        
         fakeresultsdb = payload;
         this.emit(CHANGE);
     }
 
     _load_results(payload){
-        console.log(payload);
-        
         fakeresultsdb[payload.tcid] = payload.data;
         this.emit(CHANGE);
     }
