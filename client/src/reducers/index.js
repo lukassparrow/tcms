@@ -1,3 +1,5 @@
+import ActionTypes from '../constants';
+
 export default (state = { metadata: {}, results: {}, testcases: [] }, action) => {
     switch (action.actionType) {
         case ActionTypes.ADD_OUTCOME_RESP:
@@ -35,7 +37,6 @@ export default (state = { metadata: {}, results: {}, testcases: [] }, action) =>
             }
 
         default:
-            return state
-            break;
+            return state;
     }
 }
