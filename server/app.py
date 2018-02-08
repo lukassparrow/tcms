@@ -37,6 +37,10 @@ metadata = {
     }
 }
 
+testcases = {
+    'testcases' : list(metadata.keys())
+}
+
 app = Flask(__name__)
 
 
@@ -83,7 +87,7 @@ def set_results(tcid, user, outcome):
 @app.route('/testcases')
 @jsonp
 def get_testcases():
-    return jsonify({'testcases': metadata.keys()})
+    return jsonify(testcases)
 
 @app.route('/metadata/<tcid>')
 @jsonp
