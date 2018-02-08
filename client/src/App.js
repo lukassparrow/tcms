@@ -9,25 +9,10 @@ import TC from './components/TC';
 
 
 class App extends Component {
-  /*
   static propTypes = {
-    selectedSubreddit: PropTypes.string.isRequired,
-    posts: PropTypes.array.isRequired,
-    isFetching: PropTypes.bool.isRequired,
+    testcases: PropTypes.array.isRequired,
     dispatch: PropTypes.func.isRequired
   }
-  */
-  /*
-  constructor(props){
-    super(props);
-    this.state = {
-      //user: 'lbrabec',  FIXME
-      testcases: [],
-    }
-
-    console.log(this.props.data);
-  }
-  */
 
   handleSearch(e) {
     this.setState({ filter: e.target.value });
@@ -38,9 +23,6 @@ class App extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
-    //AppActions.get_testcases({});
-    console.log(this.props.dispatch)
     this.props.dispatch(get_testcases());
   }
 
@@ -92,7 +74,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(App)
-
-
-
-//export default App;
