@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 from functools import wraps
 from flask import Flask, current_app, request, jsonify
@@ -49,7 +49,8 @@ def jsonp(func):
     def decorated_function(*args, **kwargs):
         callback = request.args.get('callback', False)
         if callback:
-            data = str(func(*args, **kwargs).data)
+            data = func(*args, **kwargs).data
+            data = data.decode()
             content = str(callback)+'(' + data + ')'
             mimetype = 'application/javascript'
             return current_app.response_class(content, mimetype=mimetype)
