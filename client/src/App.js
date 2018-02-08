@@ -1,62 +1,78 @@
+import { connect } from 'react-redux'
 import React, { Component } from 'react';
+import PropTypes from 'prop-types'
 import './App.css';
 
 import TestcaseStore from './stores/testcaseStore';
-import AppActions from './actions/appActions';
+import { get_testcases } from './actions/reduxActions'
 import TC from './components/TC';
 
 
 class App extends Component {
+  /*
+  static propTypes = {
+    selectedSubreddit: PropTypes.string.isRequired,
+    posts: PropTypes.array.isRequired,
+    isFetching: PropTypes.bool.isRequired,
+    dispatch: PropTypes.func.isRequired
+  }
+  */
+  /*
   constructor(props){
     super(props);
     this.state = {
-      user: 'lbrabec',
+      //user: 'lbrabec',  FIXME
       testcases: [],
-      filter: ''
     }
 
     console.log(this.props.data);
   }
+  */
 
-  handleSearch(e){
-    this.setState({filter: e.target.value});
+  handleSearch(e) {
+    this.setState({ filter: e.target.value });
   }
 
-  componentWillMount(){
+  componentWillMount() {
     TestcaseStore.addAppChangeListener(this._onChange.bind(this));
   }
 
-  componentDidMount(){
-    AppActions.get_testcases({});
+  componentDidMount() {
+    console.log(this.props);
+    //AppActions.get_testcases({});
+    console.log(this.props.dispatch)
+    this.props.dispatch(get_testcases());
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     TestcaseStore.removeAppChangeListener(this._onChange.bind(this));
   }
 
-  _onChange(){
-    this.setState({testcases: TestcaseStore.getTestcases()});
+  _onChange() {
+    this.setState({ testcases: TestcaseStore.getTestcases() });
   }
 
   render() {
-    const tcs = this.state.testcases.map((key) => {
-      return <TC user={this.state.user} tcid={key} key={key} filter={this.state.filter}/>
+    const { testcases } = this.props
+
+    const tcs = testcases.map((key) => {
+      return <TC user={'lbrabec'} tcid={key} key={key} filter={''} />
     });
 
     return (
       <div>
         <header>
-        <nav className="navbar navbar-light bg-light ">
-          <div className="container">
-          <span className="navbar-brand mb-0 h1">RTCMS</span>
-          <form className="form-inline">
-            <input className="form-control" type="text" placeholder="Search" onChange={this.handleSearch.bind(this)}/>
-          </form>
-          <span className="navbar-text">
-          User: {this.state.user}
-          </span>
-          </div>
-        </nav>
+          <nav className="navbar navbar-light bg-light ">
+            <div className="container">
+              <span className="navbar-brand mb-0 h1">RTCMS</span>
+              <form className="form-inline">
+                <input className="form-control" type="text" placeholder="Search" onChange={this.handleSearch.bind(this)} />
+              </form>
+              <span className="navbar-text">
+                User: {'lbrabec'}
+              </span>
+            </div>
+          </nav>
         </header>
         <div className="App container">
           {tcs}
@@ -67,6 +83,16 @@ class App extends Component {
 }
 
 
+const mapStateToProps = state => {
+  const { testcases } = state
+
+  return {
+    testcases
+  }
+}
+
+export default connect(mapStateToProps)(App)
 
 
-export default App;
+
+//export default App;

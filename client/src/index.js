@@ -1,9 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react'
+import ReactDOM from 'react-dom'
 
-import { Route, Redirect } from 'react-router';
-import { BrowserRouter, Switch } from 'react-router-dom';
-import { createStore } from 'redux'
+import { Route, Redirect } from 'react-router'
+import { BrowserRouter, Switch } from 'react-router-dom'
+import { createStore, applyMiddleware } from 'redux'
+import thunkMiddleware from 'redux-thunk'
+import { createLogger } from 'redux-logger'
+import { Provider } from 'react-redux'
 
 import App from './App';
 import tc_reducer from './reducers';
@@ -13,7 +16,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import registerServiceWorker from './registerServiceWorker';
 
-const store = createStore(tc_reducer);
+const loggerMiddleware = createLogger();
+
+const store = createStore(tc_reducer, applyMiddleware(
+    thunkMiddleware,
+    loggerMiddleware
+));
 
 ReactDOM.render(
     /*
@@ -24,7 +32,9 @@ ReactDOM.render(
         </Switch>
     </BrowserRouter>
     */
-    <App data={store.getState()} store={store}/>
+    <Provider store={store}>
+        <App />
+    </Provider>
     , document.getElementById('root'));
 
 registerServiceWorker();

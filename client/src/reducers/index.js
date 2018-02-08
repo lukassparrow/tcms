@@ -1,7 +1,7 @@
 import ActionTypes from '../constants';
 
 export default (state = { metadata: {}, results: {}, testcases: [] }, action) => {
-    switch (action.actionType) {
+    switch (action.type) {
         case ActionTypes.ADD_OUTCOME_RESP:
             return {
                 ...state,
