@@ -59,7 +59,7 @@ export const remove_outcome = payload => dispatch => {
 
 export const load_metadata = payload => dispatch => {
     dispatch({
-        type: ActionTypes.BACKEND_CALL,
+        type: ActionTypes.LOAD_METADATA,
         payload: payload
     });
 
