@@ -1,66 +1,34 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-
 import _ from 'lodash';
 
-import TestcaseStore from '../stores/testcaseStore';
-import TestcaseActions from '../actions/testcaseActions';
-import { load_metadata } from '../actions/reduxActions'
-
+import { load_metadata, load_results, add_outcome, remove_outcome } from '../actions/reduxActions'
 import TCResults from '../components/TCResults';
 import TCSteps from '../components/TCSteps';
 
 
 class TC extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      metadata: {},
-      results: {}
-    }
-
-  }
-
-  _onChange() {
-    this.setState({
-      results: TestcaseStore.getResults(this.props.tcid),
-      //metadata: TestcaseStore.getMetadata(this.props.tcid)
-    });
-  }
-
-  componentWillMount() {
-    TestcaseStore.addChangeListener(this._onChange.bind(this));
-  }
 
   componentDidMount() {
-    setTimeout(() => { this.handleBackend() }, 1); //WAAAAAT ugly fucking hack FIXME
-    //this.handleBackend();
+    this.props.dispatch(load_metadata({ tcid: this.props.tcid }))
+    this.props.dispatch(load_results({ tcid: this.props.tcid }))
   }
 
-  componentWillUnmount() {
-    TestcaseStore.removeChangeListener(this._onChange.bind(this));
-  }
-
-  handleAdd(outcome) {
-    TestcaseActions.addOutcome({ tcid: this.props.tcid, user: this.props.user, outcome: outcome });
+  handleOutcome(outcome) {
+    this.props.dispatch(add_outcome({ tcid: this.props.tcid, user: this.props.user, outcome: outcome }));
   }
 
   handleRemove() {
-    TestcaseActions.removeOutcome({ tcid: this.props.tcid, user: this.props.user });
-  }
-
-  handleBackend() {
-    //TestcaseActions.load_metadata({tcid: this.props.tcid});
-    this.props.dispatch(load_metadata({ tcid: this.props.tcid }))
-    TestcaseActions.load_results({tcid: this.props.tcid});
+    this.props.dispatch(remove_outcome({ tcid: this.props.tcid, user: this.props.user }));
   }
 
   render() {
-    if (this.props.metadata[this.props.tcid] === undefined)
+    if (this.props.metadata[this.props.tcid] === undefined ||
+      this.props.results[this.props.tcid] === undefined)
       return (<div>Loading</div>);
 
-    console.log(this.props.metadata)
     const metadata = this.props.metadata[this.props.tcid];
+    const results = this.props.results[this.props.tcid];
 
     var hidden = "";
     if (!_.toLower(metadata.name).includes(_.toLower(this.props.filter))) {
@@ -81,14 +49,14 @@ class TC extends Component {
         <div className="row justify-content-start">
           <TCSteps steps={metadata.steps} title="Steps" />
           <TCSteps steps={metadata.expected} title="Expected" />
-          <TCResults results={this.state.results} />
+          <TCResults results={results} />
         </div>
         <br />
 
         <b>Your result:</b><br />
-        <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleAdd('PASSED')}>Passed</button>{' '}
-        <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleAdd('FAILED')}>Failed</button>{' '}
-        <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleAdd('INPROGRESS')}>In Progress</button>{' '}
+        <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleOutcome('PASSED')}>Passed</button>{' '}
+        <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleOutcome('FAILED')}>Failed</button>{' '}
+        <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleOutcome('INPROGRESS')}>In Progress</button>{' '}
         <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>Remove</button>{' '}
 
       </div>
@@ -106,5 +74,3 @@ const mapStateToProps = state => {
 }
 
 export default connect(mapStateToProps)(TC);
-
-//export default TC;

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import './App.css';
 
-import TestcaseStore from './stores/testcaseStore';
 import { get_testcases } from './actions/reduxActions'
 import TC from './components/TC';
 
@@ -18,20 +17,8 @@ class App extends Component {
     this.setState({ filter: e.target.value });
   }
 
-  componentWillMount() {
-    TestcaseStore.addAppChangeListener(this._onChange.bind(this));
-  }
-
   componentDidMount() {
     this.props.dispatch(get_testcases());
-  }
-
-  componentWillUnmount() {
-    TestcaseStore.removeAppChangeListener(this._onChange.bind(this));
-  }
-
-  _onChange() {
-    this.setState({ testcases: TestcaseStore.getTestcases() });
   }
 
   render() {
