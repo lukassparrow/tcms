@@ -16,11 +16,15 @@ import registerServiceWorker from './registerServiceWorker';
 const store = createStore(tc_reducer);
 
 ReactDOM.render(
+    /*
     <BrowserRouter>
         <Switch>
             <Route path="/results" component={App} />
             <Redirect from="/" to="/results" />
         </Switch>
-    </BrowserRouter>, document.getElementById('root'));
+    </BrowserRouter>
+    */
+    <App data={store.getState()} store={store}/>
+    , document.getElementById('root'));
 
 registerServiceWorker();

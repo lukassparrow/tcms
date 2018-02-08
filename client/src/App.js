@@ -14,6 +14,8 @@ class App extends Component {
       testcases: [],
       filter: ''
     }
+
+    console.log(this.props.data);
   }
 
   handleSearch(e){
@@ -33,7 +35,6 @@ class App extends Component {
   }
 
   _onChange(){
-    //console.log(TestcaseStore.getTestcases());
     this.setState({testcases: TestcaseStore.getTestcases()});
   }
 
