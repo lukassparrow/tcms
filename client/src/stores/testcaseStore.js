@@ -19,53 +19,33 @@ class TestcaseStore extends EventEmitter {
     _registerToActions(action) {
         switch (action.actionType) {
             case ActionTypes.ADD_OUTCOME_RESP:
-                this._addOutcome(action.payload);
+                fakeresultsdb = action.payload;
+                this.emit(CHANGE);
                 break;
             case ActionTypes.REMOVE_OUTCOME_RESP:
-                this._removeOutcome(action.payload)
+                fakeresultsdb = action.payload;
+                this.emit(CHANGE);
                 break;
 
             case ActionTypes.BACKEND_CALL_RESP:
-                this._load_results(action.payload)
+                fakeresultsdb[action.payload.tcid] = action.payload.data;
+                this.emit(CHANGE);
                 break;
 
             case ActionTypes.LOAD_METADATA_RESP:
-                this._load_metadata(action.payload)
+                tcsmetadata[action.payload.tcid] = action.payload.data;
+                this.emit(CHANGE);
                 break;
 
 
             case ActionTypes.GET_TESTCASES_RESP:
-                this._get_testcases(action.payload)
+                testcases = action.payload.testcases;
+                this.emit(APPCHANGE);
                 break;
 
             default:
                 break;
         }
-    }
-
-    _addOutcome(payload) {
-        fakeresultsdb = payload;
-        this.emit(CHANGE);
-    }
-
-    _removeOutcome(payload) {
-        fakeresultsdb = payload;
-        this.emit(CHANGE);
-    }
-
-    _load_results(payload) {
-        fakeresultsdb[payload.tcid] = payload.data;
-        this.emit(CHANGE);
-    }
-
-    _load_metadata(payload) {
-        tcsmetadata[payload.tcid] = payload.data;
-        this.emit(CHANGE);
-    }
-
-    _get_testcases(payload) {
-        testcases = payload.testcases;
-        this.emit(APPCHANGE);
     }
 
     getResults(tcid) {
