@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from flask.ext.login import LoginManager, UserMixin, login_required, \
+    login_user, logout_user, current_user
 from flask.ext.oidc import OpenIDConnect
 
 from functools import wraps
@@ -55,7 +57,21 @@ app.config.update({
     'OIDC_OPENID_REALM': 'http://localhost:5000/oidc_callback',
     'OIDC_SCOPES': ['openid', 'email'],
 })
+
 oidc = OpenIDConnect(app)
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+class User(UserMixin):
+    def __init__(self, email):
+        self.id = email
+        self.email = email
+
+@login_manager.user_loader
+def load_user(userid):
+    return User(userid)
+
 
 def jsonp(func):
     @wraps(func)
@@ -71,25 +87,31 @@ def jsonp(func):
             return func(*args, **kwargs)
     return decorated_function
 
+
 @app.route('/oidc_login')
 @oidc.require_login
 def oidc_login():
-    #info = oidc.user_getinfo(['email'])
+    email = oidc.user_getfield('email')
+    login_user(User(email))
     return redirect('http://localhost:3000')
+
 
 @app.route('/oidc_logout')
 @oidc.require_login
 def oidc_logout():
     oidc.logout()
+    logout_user()
     return redirect('http://localhost:3000')
+
 
 @app.route('/user')
 @jsonp
 def get_user():
-    if oidc.user_loggedin:
-        return jsonify({'email': oidc.user_getfield('email')})
-    else:    
+    if current_user.is_authenticated:
+        return jsonify({'email': current_user.email})
+    else:
         return jsonify({'email': ''})
+
 
 @app.route('/results/<string:tcid>', methods=['GET'])
 @jsonp
@@ -99,11 +121,11 @@ def get_results(tcid):
 
 
 @app.route('/results/<tcid>/delete', methods=['GET'])
-@oidc.require_login
+@login_required
 @jsonp
 def del_results(tcid):
     try:
-        user = oidc.user_getfield('email')
+        user = current_user.email
         results[tcid].pop(user)
     except KeyError:
         pass
@@ -111,10 +133,10 @@ def del_results(tcid):
 
 
 @app.route('/results/<tcid>/add/<outcome>', methods=['GET'])
-@oidc.require_login
+@login_required
 @jsonp
 def set_results(tcid, outcome):
-    user = oidc.user_getfield('email')
+    user = current_user.email
 
     if not tcid in results:
         results[tcid] = {}
