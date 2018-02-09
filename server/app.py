@@ -135,4 +135,8 @@ def get_metadata(tcid):
 
 
 if __name__ == '__main__':
+    global results
+    for key in metadata:
+        if key not in results:
+            results[key] = {}
     app.run(debug=True)
