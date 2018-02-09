@@ -88,12 +88,15 @@ def jsonp(func):
     return decorated_function
 
 
+FRONTEND_URL = 'http://localhost:3000'
+
+
 @app.route('/oidc_login')
 @oidc.require_login
 def oidc_login():
     email = oidc.user_getfield('email')
     login_user(User(email))
-    return redirect('http://localhost:3000')
+    return redirect(FRONTEND_URL)
 
 
 @app.route('/oidc_logout')
@@ -101,7 +104,7 @@ def oidc_login():
 def oidc_logout():
     oidc.logout()
     logout_user()
-    return redirect('http://localhost:3000')
+    return redirect(FRONTEND_URL)
 
 
 @app.route('/user')

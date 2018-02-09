@@ -34,41 +34,45 @@ class TC extends Component {
     const result_buttons = (this.props.user === "") ?
       (null) :
       (<div>
-        <b>Your result:</b><br />
+        <div className="h-result">Your result:</div>
         <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleOutcome('PASSED')}>
-          <Icon name="check" fixedWidth/>
-          </button>{' '}
+          <Icon name="check" fixedWidth />
+        </button>{' '}
+        <button type="button" className="btn btn-sm btn-warning color-white" onClick={() => this.handleOutcome('WARNING')}>
+          <Icon name="exclamation-triangle" fixedWidth />
+        </button>{' '}
         <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleOutcome('FAILED')}>
-        <Icon name="times"  fixedWidth/>
+          <Icon name="times" fixedWidth />
         </button>{' '}
         <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleOutcome('INPROGRESS')}>
-        <Icon name="spinner" fixedWidth/>
+          <Icon name="spinner" fixedWidth />
         </button>{' '}
         <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>
-        <Icon name="trash" fixedWidth/>
+          <Icon name="trash" fixedWidth />
         </button>{' '}
       </div>)
 
     return (
       <div className="testcase">
-        <div className="row">
+        <div className="row h-testcase">
           <div className="col">
             <h2>{metadata.name}</h2>
           </div>
         </div>
-        <div className="row description">
-          <div className="col">{metadata.description}</div>
-        </div>
-        <br />
-        <div className="row justify-content-start">
-          <TCSteps steps={metadata.steps} title="Steps" />
-          <TCSteps steps={metadata.expected} title="Expected" />
-          <TCResults results={results} />
-        </div>
-        <br />
+        <div className="testcase-info">
+          <div className="row description">
+            <div className="col">{metadata.description}</div>
+          </div>
+          <br />
+          <div className="row justify-content-start steps">
+            <TCSteps steps={metadata.steps} title="Steps" />
+            <TCSteps steps={metadata.expected} title="Expected" />
+            <TCResults results={results} />
+          </div>
+          <br />
 
-        {result_buttons}
-
+          {result_buttons}
+        </div>
       </div>
     );
   }

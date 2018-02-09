@@ -4,6 +4,10 @@ header {
     font-weight: bold;
 }
 
+h2 {
+    font-size: 1.5rem !important;
+}
+
 .navbar-brand {
     font-size: 1rem;
     font-weight: bold;
@@ -11,6 +15,21 @@ header {
 
 .description {
     font-style: italic;
+    font-size: 0.9rem;
+}
+
+.steps {
+    font-size: 0.9rem;
+}
+
+.h-result {
+    font-size: 0.9rem;
+    font-weight: bold;
+}
+
+.h-testcase {
+    background-color: #f0f0f0;
+    margin: 0 !important;
 }
 
 .numline {
@@ -19,6 +38,21 @@ header {
 
 .testcase {
     margin-bottom: 50px;
+    border-radius: 3px 3px 3px 3px;
+    -moz-border-radius: 3px 3px 3px 3px;
+    -webkit-border-radius: 3px 3px 3px 3px;
+    border: 1px solid #f0f0f0;
+}
+
+.testcase h2 {
+    margin-top: 8px;
+    font-weight: bold;
+    color: #444 !important;
+    font-size: 1rem !important;
+}
+
+.testcase-info {
+    padding: 1rem;
 }
 
 ol {
@@ -31,4 +65,8 @@ ol {
 
 .hidden {
     display: none;
+}
+
+.color-white {
+    color: #fff !important;
 }

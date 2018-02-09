@@ -13,11 +13,15 @@ class TCResults extends Component {
       if(this.props.results[key] === "INPROGRESS"){
         badge_type = "badge-info";
         icon = <Icon name="spinner" pulse/>;
+      } else
+      if(this.props.results[key] === "WARNING"){
+        badge_type = "badge-warning color-white";
+        icon = <Icon name="exclamation-circle"/>;
       } else {
         badge_type = "badge-danger";
         icon = <Icon name="times-circle" />;
       }
-      
+
       return (
         <div key={key}>
           <span className={"badge " + badge_type}>
