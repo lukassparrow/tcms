@@ -26,7 +26,7 @@ class App extends Component {
     const { testcases } = this.props
 
     const tcs = testcases.map((key) => {
-      return <TC user={this.props.user} tcid={key} key={key} filter={''} />
+      return <TC user={this.props.user} tcid={key} key={key} />
     });
 
     const userauth = this.props.user === '' ?
@@ -39,9 +39,6 @@ class App extends Component {
           <nav className="navbar navbar-light bg-light ">
             <div className="container">
               <span className="navbar-brand mb-0 h1">RTCMS</span>
-              <form className="form-inline">
-                <input className="form-control" type="text" placeholder="Search" onChange={this.handleSearch.bind(this)} />
-              </form>
               <span className="navbar-text">
                 {userauth}
               </span>

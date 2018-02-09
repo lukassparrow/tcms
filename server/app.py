@@ -103,7 +103,7 @@ def get_results(tcid):
 @jsonp
 def del_results(tcid):
     try:
-        user = oidc.user_getinfo(['email']).get('email')
+        user = oidc.user_getfield('email')
         results[tcid].pop(user)
     except KeyError:
         pass
@@ -114,7 +114,7 @@ def del_results(tcid):
 @oidc.require_login
 @jsonp
 def set_results(tcid, outcome):
-    user = oidc.user_getinfo(['email']).get('email')
+    user = oidc.user_getfield('email')
 
     if not tcid in results:
         results[tcid] = {}

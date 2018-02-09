@@ -30,11 +30,6 @@ class TC extends Component {
     const metadata = this.props.metadata[this.props.tcid];
     const results = this.props.results[this.props.tcid];
 
-    var hidden = "";
-    if (!_.toLower(metadata.name).includes(_.toLower(this.props.filter))) {
-      hidden = "hidden";
-    }
-
     const result_buttons = (this.props.user === "") ?
       (null) :
       (<div>
@@ -46,7 +41,7 @@ class TC extends Component {
        </div>)
 
     return (
-      <div className={"testcase " + hidden}>
+      <div className="testcase">
         <div className="row">
           <div className="col">
             <h2>{metadata.name}</h2>
