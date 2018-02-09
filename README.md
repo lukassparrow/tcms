@@ -1,15 +1,18 @@
 # Simple TCMS demo in React
 
-For server, run:
+### Server setup
 ```
 cd server
 pip install -r requirements.txt
 ./app.py
 ```
 
-For client, run:
+### Client setup
 ```
 cd client
 npm install
 npm start
 ```
+
+### Screenshot
+![Screenshot](screenshot.png)
