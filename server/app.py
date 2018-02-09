@@ -81,13 +81,15 @@ def oidc_login():
 @oidc.require_login
 def oidc_logout():
     oidc.logout()
-    return 'logged out'
+    return redirect('http://localhost:3000')
 
 @app.route('/user')
-@oidc.require_login
+@jsonp
 def get_user():
-    info = oidc.user_getinfo(['email'])
-    return jsonify(info)
+    if oidc.user_loggedin:
+        return jsonify({'email': oidc.user_getfield('email')})
+    else:    
+        return jsonify({'email': ''})
 
 @app.route('/results/<string:tcid>', methods=['GET'])
 @jsonp

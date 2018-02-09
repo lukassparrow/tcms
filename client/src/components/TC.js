@@ -35,6 +35,16 @@ class TC extends Component {
       hidden = "hidden";
     }
 
+    const result_buttons = (this.props.user === "") ?
+      (null) :
+      (<div>
+        <b>Your result:</b><br />
+        <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleOutcome('PASSED')}>Passed</button>{' '}
+        <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleOutcome('FAILED')}>Failed</button>{' '}
+        <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleOutcome('INPROGRESS')}>In Progress</button>{' '}
+        <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>Remove</button>{' '}
+       </div>)
+
     return (
       <div className={"testcase " + hidden}>
         <div className="row">
@@ -53,11 +63,7 @@ class TC extends Component {
         </div>
         <br />
 
-        <b>Your result:</b><br />
-        <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleOutcome('PASSED')}>Passed</button>{' '}
-        <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleOutcome('FAILED')}>Failed</button>{' '}
-        <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleOutcome('INPROGRESS')}>In Progress</button>{' '}
-        <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>Remove</button>{' '}
+        {result_buttons}
 
       </div>
     );
@@ -65,11 +71,12 @@ class TC extends Component {
 }
 
 const mapStateToProps = state => {
-  const { metadata, results } = state
+  const { metadata, results, user } = state
 
   return {
     metadata,
-    results
+    results,
+    user
   }
 }
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import './App.css';
 
-import { get_testcases } from './actions/reduxActions'
+import { get_testcases, get_user } from './actions/reduxActions'
 import TC from './components/TC';
 
 
@@ -19,6 +19,7 @@ class App extends Component {
 
   componentDidMount() {
     this.props.dispatch(get_testcases());
+    this.props.dispatch(get_user());
   }
 
   render() {

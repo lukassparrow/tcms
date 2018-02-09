@@ -3,6 +3,10 @@ import fetchJsonp from 'fetch-jsonp';
 
 const API_URL = 'http://localhost:5000'
 
+export const add_user_resp = payload => ({
+    type: ActionTypes.GET_USER_RESP,
+    payload: payload
+})
 
 export const add_outcome_resp = payload => ({
         type: ActionTypes.ADD_OUTCOME_RESP,
@@ -36,10 +40,11 @@ export const get_user = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp('......')
+    fetchJsonp(API_URL + '/user')
         .then((resp) => { return resp.json(); })
         .then((json) => {
-            //dispatch(add_outcome_resp(json))
+            console.log(json);
+            dispatch(add_user_resp(json))
         });
 }
 

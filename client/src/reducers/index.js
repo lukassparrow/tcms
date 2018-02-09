@@ -2,6 +2,11 @@ import ActionTypes from '../constants';
 
 export default (state = { metadata: {}, results: {}, testcases: [], user: ''}, action) => {
     switch (action.type) {
+        case ActionTypes.GET_USER_RESP:
+            return {
+                ...state,
+                user: action.payload.email
+            }
         case ActionTypes.ADD_OUTCOME_RESP:
             return {
                 ...state,
