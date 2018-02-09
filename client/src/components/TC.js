@@ -36,16 +36,16 @@ class TC extends Component {
       (<div>
         <b>Your result:</b><br />
         <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleOutcome('PASSED')}>
-          <Icon name="check"/>{' '}Passed
+          <Icon name="check" fixedWidth/>
           </button>{' '}
         <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleOutcome('FAILED')}>
-        <Icon name="times"/>{' '}Failed
+        <Icon name="times"  fixedWidth/>
         </button>{' '}
         <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleOutcome('INPROGRESS')}>
-        <Icon name="spinner"/>{' '}In Progress
+        <Icon name="spinner" fixedWidth/>
         </button>{' '}
         <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>
-        <Icon name="trash"/>{' '}Remove
+        <Icon name="trash" fixedWidth/>
         </button>{' '}
       </div>)
 
