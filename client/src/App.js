@@ -25,8 +25,12 @@ class App extends Component {
     const { testcases } = this.props
 
     const tcs = testcases.map((key) => {
-      return <TC user={'lbrabec'} tcid={key} key={key} filter={''} />
+      return <TC user={this.props.user} tcid={key} key={key} filter={''} />
     });
+
+    const userauth = this.props.user === '' ?
+      (<a href="http://localhost:5000/oidc_login">Log in</a>) :
+      (<a href="http://localhost:5000/oidc_logout">Logout user: {this.props.user}</a>);
 
     return (
       <div>
@@ -38,7 +42,7 @@ class App extends Component {
                 <input className="form-control" type="text" placeholder="Search" onChange={this.handleSearch.bind(this)} />
               </form>
               <span className="navbar-text">
-                User: {'lbrabec'}
+                {userauth}
               </span>
             </div>
           </nav>
@@ -53,10 +57,11 @@ class App extends Component {
 
 
 const mapStateToProps = state => {
-  const { testcases } = state
+  const { testcases, user } = state
 
   return {
-    testcases
+    testcases,
+    user
   }
 }
 

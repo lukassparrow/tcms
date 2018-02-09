@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
+from flask.ext.oidc import OpenIDConnect
+
 from functools import wraps
-from flask import Flask, current_app, request, jsonify
+from flask import Flask, current_app, request, jsonify, redirect
 import json
 
 results = {
@@ -43,6 +45,17 @@ testcases = {
 
 app = Flask(__name__)
 
+app.config.update({
+    'SECRET_KEY': 'thisissecretkey',
+    'TESTING': True,
+    'DEBUG': True,
+    'OIDC_CLIENT_SECRETS': './client_secrets.json.dev',
+    'OIDC_ID_TOKEN_COOKIE_SECURE': False,
+    'OIDC_REQUIRE_VERIFIED_EMAIL': False,
+    'OIDC_OPENID_REALM': 'http://localhost:5000/oidc_callback',
+    'OIDC_SCOPES': ['openid', 'email'],
+})
+oidc = OpenIDConnect(app)
 
 def jsonp(func):
     @wraps(func)
@@ -58,6 +71,23 @@ def jsonp(func):
             return func(*args, **kwargs)
     return decorated_function
 
+@app.route('/oidc_login')
+@oidc.require_login
+def oidc_login():
+    #info = oidc.user_getinfo(['email'])
+    return redirect('http://localhost:3000')
+
+@app.route('/oidc_logout')
+@oidc.require_login
+def oidc_logout():
+    oidc.logout()
+    return 'logged out'
+
+@app.route('/user')
+@oidc.require_login
+def get_user():
+    info = oidc.user_getinfo(['email'])
+    return jsonify(info)
 
 @app.route('/results/<string:tcid>', methods=['GET'])
 @jsonp
@@ -66,19 +96,24 @@ def get_results(tcid):
     return jsonify(result)
 
 
-@app.route('/results/<tcid>/delete/<user>/', methods=['GET'])
+@app.route('/results/<tcid>/delete', methods=['GET'])
+@oidc.require_login
 @jsonp
-def del_results(tcid, user):
+def del_results(tcid):
     try:
+        user = oidc.user_getinfo(['email']).get('email')
         results[tcid].pop(user)
     except KeyError:
         pass
     return jsonify(results)
 
 
-@app.route('/results/<tcid>/<user>/<outcome>', methods=['GET'])
+@app.route('/results/<tcid>/add/<outcome>', methods=['GET'])
+@oidc.require_login
 @jsonp
-def set_results(tcid, user, outcome):
+def set_results(tcid, outcome):
+    user = oidc.user_getinfo(['email']).get('email')
+
     if not tcid in results:
         results[tcid] = {}
     results[tcid][user] = outcome

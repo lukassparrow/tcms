@@ -30,6 +30,18 @@ export const get_testcases_resp = payload => ({
 })
 
 
+export const get_user = payload => dispatch => {
+    dispatch({
+        type: ActionTypes.GET_USER,
+        payload: payload
+    });
+
+    fetchJsonp('......')
+        .then((resp) => { return resp.json(); })
+        .then((json) => {
+            //dispatch(add_outcome_resp(json))
+        });
+}
 
 export const add_outcome = payload => dispatch => {
     dispatch({
@@ -37,7 +49,7 @@ export const add_outcome = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + '/results/' + payload.tcid + '/' + payload.user + '/' + payload.outcome)
+    fetchJsonp(API_URL + '/results/' + payload.tcid + '/add/' + payload.outcome)
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(add_outcome_resp(json))
@@ -50,7 +62,7 @@ export const remove_outcome = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + '/results/' + payload.tcid + '/delete/' + payload.user)
+    fetchJsonp(API_URL + '/results/' + payload.tcid + '/delete')
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(remove_outcome_resp(json))
