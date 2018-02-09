@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import { Icon } from 'react-fa';
 import _ from 'lodash';
 
 import { load_metadata, load_results, add_outcome, remove_outcome } from '../actions/reduxActions'
@@ -34,11 +35,19 @@ class TC extends Component {
       (null) :
       (<div>
         <b>Your result:</b><br />
-        <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleOutcome('PASSED')}>Passed</button>{' '}
-        <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleOutcome('FAILED')}>Failed</button>{' '}
-        <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleOutcome('INPROGRESS')}>In Progress</button>{' '}
-        <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>Remove</button>{' '}
-       </div>)
+        <button type="button" className="btn btn-sm btn-success" onClick={() => this.handleOutcome('PASSED')}>
+          <Icon name="check"/>{' '}Passed
+          </button>{' '}
+        <button type="button" className="btn btn-sm btn-danger" onClick={() => this.handleOutcome('FAILED')}>
+        <Icon name="times"/>{' '}Failed
+        </button>{' '}
+        <button type="button" className="btn btn-sm btn-info" onClick={() => this.handleOutcome('INPROGRESS')}>
+        <Icon name="spinner"/>{' '}In Progress
+        </button>{' '}
+        <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>
+        <Icon name="trash"/>{' '}Remove
+        </button>{' '}
+      </div>)
 
     return (
       <div className="testcase">
