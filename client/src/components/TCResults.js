@@ -1,32 +1,12 @@
 import React, { Component } from 'react';
-import { Icon } from 'react-fa';
+import OutcomeBadge from '../components/OutcomeBadge';
 
 class TCResults extends Component {
   render() {
     const results = Object.keys(this.props.results).map((key) => {
-      var badge_type = "";
-      var icon = null;
-      if(this.props.results[key] === "PASSED"){
-        badge_type = "badge-success";
-        icon = <Icon name="check-circle" />;
-      } else
-      if(this.props.results[key] === "INPROGRESS"){
-        badge_type = "badge-info";
-        icon = <Icon name="spinner" pulse/>;
-      } else
-      if(this.props.results[key] === "WARNING"){
-        badge_type = "badge-warning color-white";
-        icon = <Icon name="exclamation-circle"/>;
-      } else {
-        badge_type = "badge-danger";
-        icon = <Icon name="times-circle" />;
-      }
-
       return (
         <div key={key}>
-          <span className={"badge " + badge_type}>
-          { icon }{" " + key + " "}
-          </span>{' '}
+          <OutcomeBadge outcome={this.props.results[key]}>{key}</OutcomeBadge>{' '}
         </div>
       )
     });

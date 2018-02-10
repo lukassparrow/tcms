@@ -9,6 +9,7 @@ import { createLogger } from 'redux-logger'
 import { Provider } from 'react-redux'
 
 import App from './App';
+import SummaryApp from './SummaryApp';
 import tc_reducer from './reducers';
 
 import './index.css';
@@ -24,16 +25,14 @@ const store = createStore(tc_reducer, applyMiddleware(
 ));
 
 ReactDOM.render(
-    /*
-    <BrowserRouter>
-        <Switch>
-            <Route path="/results" component={App} />
-            <Redirect from="/" to="/results" />
-        </Switch>
-    </BrowserRouter>
-    */
     <Provider store={store}>
-        <App />
+        <BrowserRouter>
+            <Switch>
+                <Route path="/results" component={App} />
+                <Route path="/summary" component={SummaryApp} />
+                <Redirect from="/" to="/summary" />
+            </Switch>
+        </BrowserRouter>
     </Provider>
     , document.getElementById('root'));
 

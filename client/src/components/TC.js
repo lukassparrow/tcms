@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Icon } from 'react-fa';
-import _ from 'lodash';
 
 import { load_metadata, load_results, add_outcome, remove_outcome } from '../actions/reduxActions'
 import TCResults from '../components/TCResults';
