@@ -6,7 +6,7 @@ import TC from './components/TC';
 import RootLayout from './components/RootLayout';
 
 
-class App extends Component {
+class DetailApp extends Component {
   render() {
 
     return (
@@ -26,4 +26,4 @@ const mapStateToProps = state => {
   }
 }
 
-export default connect(mapStateToProps)(App)
+export default connect(mapStateToProps)(DetailApp)
