@@ -17,7 +17,7 @@ export default (state = { metadata: {}, results: {}, testcases: [], user: ''}, a
                 ...state,
                 results: action.payload
             }
-        case ActionTypes.BACKEND_CALL_RESP:
+        case ActionTypes.LOAD_RESULTS_RESP:
             return {
                 ...state,
                 results: {

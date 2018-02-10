@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import React, { Component } from 'react';
-import PropTypes from 'prop-types'
 import './App.css';
 
 import { get_testcases } from './actions/reduxActions'
@@ -9,15 +8,6 @@ import RootLayout from './components/RootLayout';
 
 
 class App extends Component {
-  static propTypes = {
-    testcases: PropTypes.array.isRequired,
-    dispatch: PropTypes.func.isRequired
-  }
-
-  handleSearch(e) {
-    this.setState({ filter: e.target.value });
-  }
-
   componentDidMount() {
     this.props.dispatch(get_testcases());
   }

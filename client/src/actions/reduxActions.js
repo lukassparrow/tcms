@@ -24,7 +24,7 @@ export const load_metadata_resp = payload => ({
 })
 
 export const load_results_resp = payload => ({
-        type: ActionTypes.BACKEND_CALL_RESP,
+        type: ActionTypes.LOAD_RESULTS_RESP,
         payload: payload
 })
 
@@ -89,7 +89,7 @@ export const load_metadata = payload => dispatch => {
 
 export const load_results = payload => dispatch => {
     dispatch({
-        type: ActionTypes.BACKEND_CALL,
+        type: ActionTypes.LOAD_RESULTS,
         payload: payload
     });
 
