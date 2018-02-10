@@ -29,10 +29,7 @@ export default (state = { metadata: {}, results: {}, testcases: [], user: ''}, a
         case ActionTypes.LOAD_METADATA_RESP:
             return {
                 ...state,
-                metadata: {
-                    ...state.metadata,
-                    [action.payload.tcid]: action.payload.data
-                }
+                metadata: action.payload.data
             }
 
         case ActionTypes.GET_TESTCASES_RESP:

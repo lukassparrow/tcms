@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 
-import { get_user } from '../actions/reduxActions'
+import { get_user, load_metadata } from '../actions/reduxActions'
 
 class RootLayout extends Component {
     componentDidMount() {
         this.props.dispatch(get_user());
+        this.props.dispatch(load_metadata({}))
     }
 
     render() {

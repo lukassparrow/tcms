@@ -2,24 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import _ from 'lodash';
 
-import { load_metadata, load_results } from '../actions/reduxActions'
+import { load_results } from '../actions/reduxActions'
 import OutcomeBadge from '../components/OutcomeBadge';
 
 
 class TCOverview extends Component {
 
     componentDidMount() {
-        this.props.dispatch(load_metadata({ tcid: this.props.tcid }))
         this.props.dispatch(load_results({ tcid: this.props.tcid }))
     }
 
     render() {
-        if (this.props.metadata[this.props.tcid] === undefined ||
-            this.props.results[this.props.tcid] === undefined)
+        if (this.props.metadata === undefined ||
+            this.props.results === undefined)
             return (<div>Loading</div>);
 
-        const metadata = this.props.metadata[this.props.tcid];
-        const results = this.props.results[this.props.tcid];
+          const { metadata, results } = this.props;
 
         const resultsSummary = _(results).values().countBy().entries().value().map((entry) => {
             return entry.reduce((outcome, count) => {
@@ -49,12 +47,12 @@ class TCOverview extends Component {
 
 
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
     const { metadata, results } = state
 
     return {
-        metadata,
-        results
+        metadata: metadata[ownProps.tcid],
+        results: results[ownProps.tcid]
     }
 }
 

@@ -80,7 +80,7 @@ export const load_metadata = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + "/metadata/" + payload.tcid)
+    fetchJsonp(API_URL + "/metadata")
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(load_metadata_resp({ tcid: payload.tcid, data: json }));

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Icon } from 'react-fa';
 
-import { load_metadata, load_results, add_outcome, remove_outcome } from '../actions/reduxActions'
+import { load_results, add_outcome, remove_outcome } from '../actions/reduxActions'
 import TCResults from '../components/TCResults';
 import TCSteps from '../components/TCSteps';
 
@@ -10,7 +10,6 @@ import TCSteps from '../components/TCSteps';
 class TC extends Component {
 
   componentDidMount() {
-    this.props.dispatch(load_metadata({ tcid: this.props.tcid }))
     this.props.dispatch(load_results({ tcid: this.props.tcid }))
   }
 
@@ -23,12 +22,11 @@ class TC extends Component {
   }
 
   render() {
-    if (this.props.metadata[this.props.tcid] === undefined ||
-      this.props.results[this.props.tcid] === undefined)
+    if (this.props.metadata === undefined ||
+      this.props.results === undefined)
       return (<div>Loading</div>);
 
-    const metadata = this.props.metadata[this.props.tcid];
-    const results = this.props.results[this.props.tcid];
+    const { metadata, results } = this.props;
 
     const result_buttons = (this.props.user === "") ?
       (null) :
@@ -77,12 +75,12 @@ class TC extends Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state, ownProps) => {
   const { metadata, results, user } = state
 
   return {
-    metadata,
-    results,
+    metadata: metadata[ownProps.tcid],
+    results: results[ownProps.tcid],
     user
   }
 }
