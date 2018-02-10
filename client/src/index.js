@@ -28,7 +28,7 @@ ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
             <Switch>
-                <Route path="/results" component={App} />
+                <Route path="/result/:tcid?" component={App} />
                 <Route path="/summary" component={SummaryApp} />
                 <Redirect from="/" to="/summary" />
             </Switch>

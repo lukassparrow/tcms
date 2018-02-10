@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Icon } from 'react-fa';
 import _ from 'lodash';
 
-import { load_metadata, load_results, add_outcome, remove_outcome } from '../actions/reduxActions'
-import TCResults from '../components/TCResults';
-import TCSteps from '../components/TCSteps';
+import { load_metadata, load_results } from '../actions/reduxActions'
 import OutcomeBadge from '../components/OutcomeBadge';
 
 
@@ -24,11 +21,10 @@ class TCOverview extends Component {
         const metadata = this.props.metadata[this.props.tcid];
         const results = this.props.results[this.props.tcid];
 
-
         const resultsSummary = _(results).values().countBy().entries().value().map((entry) => {
             return entry.reduce((outcome, count) => {
                 return (
-                    <span>
+                    <span key={this.props.tcid+outcome}>
                         <OutcomeBadge outcome={outcome}>{count.toString()}</OutcomeBadge>{' '}
                     </span>)
             });
@@ -38,7 +34,9 @@ class TCOverview extends Component {
             <div className="testcase-summary">
                 <div className="row">
                     <div className="col-6">
+                        <a href={"/result/"+this.props.tcid}>
                         {metadata.name}
+                        </a>
                     </div>
                     <div className="col-6 text-right">
                         {resultsSummary}

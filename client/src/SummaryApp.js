@@ -3,8 +3,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types'
 import './App.css';
 
-import { get_testcases, get_user } from './actions/reduxActions'
+import { get_testcases } from './actions/reduxActions'
 import TCOverview from './components/TCOverview';
+import RootLayout from './components/RootLayout';
 
 
 class App extends Component {
@@ -19,7 +20,6 @@ class App extends Component {
 
   componentDidMount() {
     this.props.dispatch(get_testcases());
-    this.props.dispatch(get_user());
   }
 
   render() {
@@ -29,27 +29,9 @@ class App extends Component {
       return <TCOverview tcid={key} key={key} />
     });
 
-    const userauth = this.props.user === '' ?
-      (<a href="http://localhost:5000/oidc_login">Log in</a>) :
-      (<a href="http://localhost:5000/oidc_logout">Logout user: {this.props.user}</a>);
-
     return (
-      <div>
-        <header>
-          <nav className="navbar navbar-light bg-light ">
-            <div className="container">
-              <span className="navbar-brand mb-0 h1">RTCMS</span>
-              <span className="navbar-text">
-                {userauth}
-              </span>
-            </div>
-          </nav>
-        </header>
-        <div className="App container">
-          {tcs}
-        </div>
-      </div>
-    );
+        <RootLayout> {tcs} </RootLayout>
+      );
   }
 }
 
