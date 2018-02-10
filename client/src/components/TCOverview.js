@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
 import _ from 'lodash';
 
@@ -17,12 +18,12 @@ class TCOverview extends Component {
             this.props.results === undefined)
             return (<div>Loading</div>);
 
-          const { metadata, results } = this.props;
+        const { metadata, results } = this.props;
 
         const resultsSummary = _(results).values().countBy().entries().value().map((entry) => {
             return entry.reduce((outcome, count) => {
                 return (
-                    <span key={this.props.tcid+outcome}>
+                    <span key={this.props.tcid + outcome}>
                         <OutcomeBadge outcome={outcome}>{count.toString()}</OutcomeBadge>{' '}
                     </span>)
             });
@@ -32,9 +33,9 @@ class TCOverview extends Component {
             <div className="testcase-summary">
                 <div className="row">
                     <div className="col-6">
-                        <a href={"/result/"+this.props.tcid}>
-                        {metadata.name}
-                        </a>
+                        <Link to={"/result/" + this.props.tcid}>
+                            {metadata.name}
+                        </Link>
                     </div>
                     <div className="col-6 text-right">
                         {resultsSummary}

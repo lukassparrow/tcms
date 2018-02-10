@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-
+import _ from 'lodash';
 import { get_user, load_metadata } from '../actions/reduxActions'
 
 class RootLayout extends Component {
     componentDidMount() {
         this.props.dispatch(get_user());
-        this.props.dispatch(load_metadata({}))
+        if(_.isEmpty(this.props.metadata))
+            this.props.dispatch(load_metadata({}))
     }
 
     render() {
@@ -19,7 +21,7 @@ class RootLayout extends Component {
                 <header>
                     <nav className="navbar navbar-light bg-light ">
                         <div className="container">
-                            <span className="navbar-brand mb-0 h1"><a href="/">RTCMS</a></span>
+                            <span className="navbar-brand mb-0 h1"><Link to="/">RTCMS</Link></span>
                             <span className="navbar-text">
                                 {userauth}
                             </span>
@@ -35,10 +37,10 @@ class RootLayout extends Component {
 }
 
 const mapStateToProps = state => {
-    const { user } = state
+    const { user, metadata } = state
 
     return {
-        user
+        user, metadata
     }
 }
 
