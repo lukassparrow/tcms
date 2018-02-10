@@ -152,6 +152,11 @@ def set_results(tcid, outcome):
 def get_testcases():
     return jsonify(testcases)
 
+@app.route('/metadata')
+@jsonp
+def get_all_metadata():
+    return jsonify(metadata)
+
 @app.route('/metadata/<tcid>')
 @jsonp
 def get_metadata(tcid):
