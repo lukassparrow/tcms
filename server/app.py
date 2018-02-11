@@ -8,42 +8,11 @@ from functools import wraps
 from flask import Flask, current_app, request, jsonify, redirect
 import json
 
-results = {
-    'kittenkilld': {
-        'kparal': 'FAILED',
-        'pschindl': 'PASSED',
-        'fzatlouk': 'FAILED'
-    },
-    'troll-kamil': {
-        'kparal': 'FAILED',
-        'pschindl': 'FAILED'
-    }
-}
+from pathlib import Path
+import sys
 
-metadata = {
-    'kittenkilld': {
-        'name': 'Install kittenkilld',
-        'description': 'Ugly kitten killing testcase. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam rhoncus aliquam metus.',
-        'steps': ['obtain a kitten', 'kill the kitten', '?', 'profit'],
-        'expected': ['you have a kitten', 'the kitten is no more', '?', 'dem shekels'],
-    },
-    'troll-kamil': {
-        'name': 'Skladanka-level Trolling',
-        'description': 'Just everyday joy. Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis, sem. Nulla quis diam. Integer tempor. Curabitur sagittis hendrerit ante. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Integer lacinia. In dapibus augue non sapien.',
-        'steps': ['troll kamil', '?', 'lol'],
-        'expected': ['kamil is angry', '?', 'rofl'],
-    },
-    'lipsum': {
-        'name': 'Lorem Ipsum Testcase',
-        'description': 'Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis, sem. Nulla quis diam. Integer tempor. Curabitur sagittis hendrerit ante. Nullam lectus justo, vulputate eget mollis sed, tempor sed magna. Integer lacinia. In dapibus augue non sapien.',
-        'steps': ['step one', 'step two'],
-        'expected': ['yeah', 'blah blah'],
-    }
-}
-
-testcases = {
-    'testcases' : list(metadata.keys())
-}
+results_file = 'data/results.json'
+metadata_file = 'data/metadata.json'
 
 app = Flask(__name__)
 
@@ -87,6 +56,16 @@ def jsonp(func):
             return func(*args, **kwargs)
     return decorated_function
 
+def load_testcases_from_metadata():
+    return {'testcases' : list(metadata.keys())}
+
+def dump_to_file(file, data):
+    with open(file, 'w') as f:
+        json.dump(data, f, ensure_ascii=False)
+
+def load_from_file(file):
+    with open(file) as json_data:
+        return json.load(json_data)
 
 FRONTEND_URL = 'http://localhost:3000'
 
@@ -132,6 +111,7 @@ def del_results(tcid):
         results[tcid].pop(user)
     except KeyError:
         pass
+    dump_to_file(results_file, results)
     return jsonify(results)
 
 
@@ -144,6 +124,7 @@ def set_results(tcid, outcome):
     if not tcid in results:
         results[tcid] = {}
     results[tcid][user] = outcome
+    dump_to_file(results_file, results)
     return jsonify(results)
 
 
@@ -165,6 +146,18 @@ def get_metadata(tcid):
 
 
 if __name__ == '__main__':
+    try:
+        results = load_from_file(results_file)
+    except (json.decoder.JSONDecodeError, FileNotFoundError):
+        results = {}
+        open(results_file, 'a').close()
+        dump_to_file(results_file, results)
+    if Path(metadata_file).is_file():
+        metadata = load_from_file(metadata_file)
+        testcases = load_testcases_from_metadata()
+    else:
+        print('Requested data files are missing!')
+        sys.exit(-1)
     for key in metadata:
         if key not in results:
             results[key] = {}
