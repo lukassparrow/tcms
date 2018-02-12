@@ -17,7 +17,7 @@ class TC extends Component {
 
   componentWillReceiveProps(nextProps) {
     const user_result = nextProps.results[this.props.user]
-    if(!(user_result === undefined || user_result.comment === undefined)){
+    if (!(user_result === undefined || user_result.comment === undefined)) {
       this.setState({
         comment: user_result.comment
       });
@@ -90,19 +90,31 @@ class TC extends Component {
             <div className="col">{metadata.description}</div>
           </div>
           <br />
+          <div className="row">
+            <div className="col-4">
+              <TCSteps steps={metadata.setup} title="Setup" />
+            </div>
+          </div>
+          <br />
           <div className="row justify-content-start steps">
-            <TCSteps steps={metadata.steps} title="Steps" />
-            <TCSteps steps={metadata.expected} title="Expected" />
-            <TCResults results={results} />
+            <div className="col-4">
+              <TCSteps steps={metadata.steps} title="Steps" />
+            </div>
+            <div className="col-4">
+              <TCSteps steps={metadata.expected} title="Expected" />
+            </div>
+            <div className="col-4">
+              <TCResults results={results} />
+            </div>
           </div>
           <div className="row steps">
             <div className="col">
-            <br />
-            <b>Additional comments:</b>
-              {Object.keys(this.props.results).map((key) => { 
+              <br />
+              <b>Additional comments:</b>
+              {Object.keys(this.props.results).map((key) => {
                 const comment = this.props.results[key].comment;
-                return (comment==="")? (null) : <div key={"comment_" + key}>{key}{": "}{comment}</div>
-               })}
+                return (comment === "") ? (null) : <div key={"comment_" + key}>{key}{": "}{comment}</div>
+              })}
             </div>
           </div>
           <br />

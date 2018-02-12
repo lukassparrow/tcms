@@ -11,7 +11,7 @@ class TCSteps extends Component {
     });
 
     return (
-      <div className="col-4 steps">
+      <div className="steps">
         <b>{this.props.title}:</b>
         {steps}
       </div>
