@@ -1,7 +1,5 @@
 import ActionTypes from '../constants';
-import fetchJsonp from 'fetch-jsonp';
 
-const API_URL = 'http://localhost:5000'
 
 export const add_user_resp = payload => ({
     type: ActionTypes.GET_USER_RESP,
@@ -40,10 +38,9 @@ export const get_user = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + '/user')
+    fetch('/user', {credentials: 'include'})
         .then((resp) => { return resp.json(); })
         .then((json) => {
-            console.log(json);
             dispatch(add_user_resp(json))
         });
 }
@@ -53,8 +50,8 @@ export const add_outcome = payload => dispatch => {
         type: ActionTypes.ADD_OUTCOME,
         payload: payload
     });
-    const url = API_URL + '/results/' + payload.tcid + '/add/' + payload.outcome + "?comment=" + payload.comment
-    fetchJsonp(url)
+    const url = '/results/' + payload.tcid + '/add/' + payload.outcome + "?comment=" + payload.comment
+    fetch(url, {credentials: 'include'})
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(add_outcome_resp(json))
@@ -67,7 +64,7 @@ export const remove_outcome = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + '/results/' + payload.tcid + '/delete')
+    fetch('/results/' + payload.tcid + '/delete', {credentials: 'include'})
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(remove_outcome_resp(json))
@@ -80,7 +77,7 @@ export const load_metadata = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + "/metadata")
+    fetch("/metadata", {credentials: 'include'})
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(load_metadata_resp({ tcid: payload.tcid, data: json }));
@@ -93,7 +90,7 @@ export const load_results = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + "/results/" + payload.tcid)
+    fetch("/results/" + payload.tcid, {credentials: 'include'})
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(load_results_resp({ tcid: payload.tcid, data: json }));
@@ -106,7 +103,7 @@ export const get_testcases = payload => dispatch => {
         payload: payload
     });
 
-    fetchJsonp(API_URL + "/testcases")
+    fetch("/testcases", {credentials: 'include'})
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(get_testcases_resp(json));
