@@ -19,8 +19,7 @@ class TCOverview extends Component {
             return (<div>Loading</div>);
 
         const { metadata, results } = this.props;
-
-        const resultsSummary = _(results).values().countBy().entries().value().map((entry) => {
+        const resultsSummary = _(results).values().countBy('outcome').entries().value().map((entry) => {
             return entry.reduce((outcome, count) => {
                 return (
                     <span key={this.props.tcid + outcome}>

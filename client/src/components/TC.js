@@ -101,7 +101,7 @@ class TC extends Component {
             <b>Additional comments:</b>
               {Object.keys(this.props.results).map((key) => { 
                 const comment = this.props.results[key].comment;
-                return (comment==="")? (null) : <div>{key}{": "}{comment}</div>
+                return (comment==="")? (null) : <div key={"comment_" + key}>{key}{": "}{comment}</div>
                })}
             </div>
           </div>
