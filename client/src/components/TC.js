@@ -15,6 +15,15 @@ class TC extends Component {
     }
   }
 
+  componentWillReceiveProps(nextProps) {
+    const user_result = nextProps.results[this.props.user]
+    if(!(user_result === undefined || user_result.comment === undefined)){
+      this.setState({
+        comment: user_result.comment
+      });
+    }
+  }
+
   componentDidMount() {
     this.props.dispatch(load_results({ tcid: this.props.tcid }))
   }
@@ -30,6 +39,7 @@ class TC extends Component {
 
   handleRemove() {
     this.props.dispatch(remove_outcome({ tcid: this.props.tcid, user: this.props.user }));
+    this.setState({ comment: "" });
   }
 
   handleComment(e) {
@@ -64,7 +74,8 @@ class TC extends Component {
         </button>{' '}
         <br />
         <div className="h-result">Comment:</div>
-        <textarea className="form-control" rows="3" id="comment" onChange={this.handleComment.bind(this)}></textarea>
+        <textarea className="form-control" rows="3" id="comment" onChange={this.handleComment.bind(this)} value={this.state.comment}>
+        </textarea>
       </div>)
 
     return (
