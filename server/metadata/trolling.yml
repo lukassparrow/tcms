@@ -1,0 +1,14 @@
+---
+name: Skladanka-level Trolling
+description: >
+  Just everyday joy. Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis,
+  sem. Nulla quis diam. Integer tempor. Curabitur sagittis hendrerit ante. Nullam lectus justo,
+  vulputate eget mollis sed, tempor sed magna. Integer lacinia. In dapibus augue non sapien.
+steps:
+  - troll kamil
+  - "?"
+  - lol
+expected:
+  - kamil is angry
+  - "?"
+  - rofl

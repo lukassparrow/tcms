@@ -8,11 +8,12 @@ from functools import wraps
 from flask import Flask, current_app, request, jsonify, redirect
 import json
 
-from pathlib import Path
+import os
 import sys
+import yaml
 
-results_file = 'data/results.json'
-metadata_file = 'data/metadata.json'
+METADATA_DIR = 'metadata'
+RESULTS_FILE = 'data/results.json'
 
 app = Flask(__name__)
 
@@ -111,7 +112,7 @@ def del_results(tcid):
         results[tcid].pop(user)
     except KeyError:
         pass
-    dump_to_file(results_file, results)
+    dump_to_file(RESULTS_FILE, results)
     return jsonify(results)
 
 
@@ -127,7 +128,7 @@ def set_results(tcid, outcome):
         'outcome': outcome,
         'comment': request.args.get('comment')
     }
-    dump_to_file(results_file, results)
+    dump_to_file(RESULTS_FILE, results)
     return jsonify(results)
 
 
@@ -148,19 +149,29 @@ def get_metadata(tcid):
     return jsonify(result)
 
 
+def load_metadata():
+    metadata = {}
+    for f in os.listdir(METADATA_DIR):
+        with open(os.path.join(METADATA_DIR, f)) as input_file:
+            metadata[f] = yaml.load(input_file)
+
+    return metadata
+
 if __name__ == '__main__':
     try:
-        results = load_from_file(results_file)
+        results = load_from_file(RESULTS_FILE)
     except (json.decoder.JSONDecodeError, FileNotFoundError):
         results = {}
-        open(results_file, 'a').close()
-        dump_to_file(results_file, results)
-    if Path(metadata_file).is_file():
-        metadata = load_from_file(metadata_file)
-        testcases = load_testcases_from_metadata()
-    else:
-        print('Requested data files are missing!')
-        sys.exit(-1)
+        open(RESULTS_FILE, 'a').close()
+        dump_to_file(RESULTS_FILE, results)
+
+    metadata = load_metadata()
+    if metadata == {}:
+        print('No metadata found in dir %s' % METADATA_DIR)
+        sys.exit(1)
+
+    testcases = load_testcases_from_metadata()
+
     for key in metadata:
         if key not in results:
             results[key] = {}

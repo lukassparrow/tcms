@@ -1,0 +1,16 @@
+---
+name: Install kittenkilld
+description: >
+  Ugly kitten killing testcase. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+  Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+  Nullam rhoncus aliquam metus.
+steps:
+  - obtain a kitten
+  - kill the kitten
+  - "?"
+  - profit
+expected:
+  - you have a kitten,
+  - the kitten is no more,
+  - "?"
+  - dem shekels
