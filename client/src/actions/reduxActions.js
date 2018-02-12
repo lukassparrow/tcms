@@ -53,8 +53,8 @@ export const add_outcome = payload => dispatch => {
         type: ActionTypes.ADD_OUTCOME,
         payload: payload
     });
-
-    fetchJsonp(API_URL + '/results/' + payload.tcid + '/add/' + payload.outcome)
+    const url = API_URL + '/results/' + payload.tcid + '/add/' + payload.outcome + "?comment=" + payload.comment
+    fetchJsonp(url)
         .then((resp) => { return resp.json(); })
         .then((json) => {
             dispatch(add_outcome_resp(json))

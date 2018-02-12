@@ -8,17 +8,32 @@ import TCSteps from '../components/TCSteps';
 
 
 class TC extends Component {
+  constructor() {
+    super()
+    this.state = {
+      comment: ""
+    }
+  }
 
   componentDidMount() {
     this.props.dispatch(load_results({ tcid: this.props.tcid }))
   }
 
   handleOutcome(outcome) {
-    this.props.dispatch(add_outcome({ tcid: this.props.tcid, user: this.props.user, outcome: outcome }));
+    this.props.dispatch(add_outcome({
+      tcid: this.props.tcid,
+      user: this.props.user,
+      outcome: outcome,
+      comment: this.state.comment
+    }));
   }
 
   handleRemove() {
     this.props.dispatch(remove_outcome({ tcid: this.props.tcid, user: this.props.user }));
+  }
+
+  handleComment(e) {
+    this.setState({ comment: e.target.value });
   }
 
   render() {
@@ -47,6 +62,9 @@ class TC extends Component {
         <button type="button" className="btn btn-sm btn-dark" onClick={this.handleRemove.bind(this)}>
           <Icon name="trash" fixedWidth />
         </button>{' '}
+        <br />
+        <div className="h-result">Comment:</div>
+        <textarea className="form-control" rows="3" id="comment" onChange={this.handleComment.bind(this)}></textarea>
       </div>)
 
     return (
@@ -65,6 +83,16 @@ class TC extends Component {
             <TCSteps steps={metadata.steps} title="Steps" />
             <TCSteps steps={metadata.expected} title="Expected" />
             <TCResults results={results} />
+          </div>
+          <div className="row steps">
+            <div className="col">
+            <br />
+            <b>Additional comments:</b>
+              {Object.keys(this.props.results).map((key) => { 
+                const comment = this.props.results[key].comment;
+                return (comment==="")? (null) : <div>{key}{": "}{comment}</div>
+               })}
+            </div>
           </div>
           <br />
 

@@ -123,7 +123,10 @@ def set_results(tcid, outcome):
 
     if not tcid in results:
         results[tcid] = {}
-    results[tcid][user] = outcome
+    results[tcid][user] = {
+        'outcome': outcome,
+        'comment': request.args.get('comment')
+    }
     dump_to_file(results_file, results)
     return jsonify(results)
 

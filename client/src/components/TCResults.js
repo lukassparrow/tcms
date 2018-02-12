@@ -6,7 +6,7 @@ class TCResults extends Component {
     const results = Object.keys(this.props.results).map((key) => {
       return (
         <div key={key}>
-          <OutcomeBadge outcome={this.props.results[key]}>{key}</OutcomeBadge>{' '}
+          <OutcomeBadge outcome={this.props.results[key].outcome}>{key}</OutcomeBadge>{' '}
         </div>
       )
     });
