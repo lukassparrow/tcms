@@ -4,6 +4,8 @@ description: >
   Ugly kitten killing testcase. Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
   Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
   Nullam rhoncus aliquam metus.
+milestone:
+  - Optional
 setup:
   - Use clean installation of Fedora
   - dnf install kittenkilld

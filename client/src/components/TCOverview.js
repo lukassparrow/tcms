@@ -34,7 +34,10 @@ class TCOverview extends Component {
                     <div className="col-6">
                         <Link to={"/result/" + this.props.tcid}>
                             {metadata.name}
-                        </Link>
+                        </Link>{' '}
+                        <span className="badge badge-secondary">
+                        {metadata.milestone}
+                        </span>
                     </div>
                     <div className="col-6 text-right">
                         {resultsSummary}

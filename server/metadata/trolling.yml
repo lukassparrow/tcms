@@ -4,6 +4,8 @@ description: >
   Just everyday joy. Sed vel lectus. Donec odio tempus molestie, porttitor ut, iaculis quis,
   sem. Nulla quis diam. Integer tempor. Curabitur sagittis hendrerit ante. Nullam lectus justo,
   vulputate eget mollis sed, tempor sed magna. Integer lacinia. In dapibus augue non sapien.
+milestone:
+  - Beta
 setup:
   - Obtain grumpy old man jokes
   - Print the jokes or memorize them
